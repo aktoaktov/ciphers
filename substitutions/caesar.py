@@ -23,18 +23,18 @@ class CaesarCipher(BaseCipher):
         self.key = key
 
     def _shift(self, char: str, amount: int) -> str:
-        new_char = self.alphabet[(self.alphabet.index(char.lower()) + amount) % len(self.alphabet)]
+        encrypted_char = self.alphabet[(self.alphabet.index(char.lower()) + amount) % len(self.alphabet)]
 
         if self.case_strategy == 'maintain':
-            new_char = new_char.upper() if char.isupper() else new_char.lower()
+            encrypted_char = encrypted_char.upper() if char.isupper() else encrypted_char.lower()
 
-        return new_char
+        return encrypted_char
 
     def encrypt(self, plaintext: str) -> str:
         if self.key is None:
-            raise AttributeError('key must be set before encryption')
+            raise ValueError('key must be set before encryption')
 
-        result: str = ""
+        result = ""
 
         for char in plaintext:
             if char.lower() not in self.alphabet:
@@ -47,9 +47,9 @@ class CaesarCipher(BaseCipher):
 
     def decrypt(self, ciphertext: str) -> str:
         if self.key is None:
-            raise AttributeError('key must be set before decryption')
+            raise ValueError('key must be set before decryption')
 
-        result: str = ""
+        result = ""
 
         for char in ciphertext:
             if char.lower() not in self.alphabet:
